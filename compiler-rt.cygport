@@ -14,7 +14,15 @@ SRC_DIR="${NAME}-${VERSION}.src"
 
 src_compile() {
 	cd ${B}
-	cygcmake -DLLVM_CONFIG=/usr/bin/llvm-config
+	if defined ARCH_i686
+	then
+		# force __i686__ define
+		CFLAGS+=" -march=pentium3"
+	fi
+	# clang knows cygwin as windows-cygnus
+	cygcmake -DLLVM_CONFIG=/usr/bin/llvm-config \
+		 -DCOMPILER_RT_INSTALL_PATH=/usr/lib/clang/${VERSION} \
+		 -DCOMPILER_RT_OS_DIR=windows
 	cygmake
 }
 
@@ -22,8 +30,6 @@ src_install() {
 	cd ${B}
 	cyginstall
 
-	dodir /usr/lib/clang/${VERSION}/lib/windows/
-	mv ${D}/usr/lib/cygwin/libclang_rt* ${D}/usr/lib/clang/${VERSION}/lib/windows/
 	# these libraries are not built for Cygwin
-	find ${D}/usr/include/{sanitizer,xray}/ -delete
+	find ${D}/usr/lib/clang/${VERSION}/include/{sanitizer,xray}/ -delete
 }
