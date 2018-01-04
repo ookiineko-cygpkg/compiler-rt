@@ -1,0 +1,29 @@
+inherit clang cmake
+
+NAME="compiler-rt"
+VERSION=5.0.1
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Compiler runtime library for Clang"
+DESCRIPTION="The compiler-rt provides a simple library that provides an
+implementation of the low-level target-specific hooks required by code
+generation and other runtime components."
+HOMEPAGE="http://compiler-rt.llvm.org/"
+SRC_URI="http://www.llvm.org/releases/${VERSION}/${NAME}-${VERSION}.src.tar.xz"
+SRC_DIR="${NAME}-${VERSION}.src"
+
+src_compile() {
+	cd ${B}
+	cygcmake -DLLVM_CONFIG=/usr/bin/llvm-config
+	cygmake
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	dodir /usr/lib/clang/${VERSION}/lib/windows/
+	mv ${D}/usr/lib/cygwin/libclang_rt* ${D}/usr/lib/clang/${VERSION}/lib/windows/
+	# these libraries are not built for Cygwin
+	find ${D}/usr/include/{sanitizer,xray}/ -delete
+}
