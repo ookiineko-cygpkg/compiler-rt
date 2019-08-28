@@ -2,7 +2,7 @@ CYGCMAKE_GENERATOR="Ninja"
 inherit clang cmake
 
 NAME="compiler-rt"
-VERSION=7.0.1
+VERSION=8.0.1
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Compiler runtime library for Clang"
@@ -10,17 +10,21 @@ DESCRIPTION="The compiler-rt provides a simple library that provides an
 implementation of the low-level target-specific hooks required by code
 generation and other runtime components."
 HOMEPAGE="http://compiler-rt.llvm.org/"
-SRC_URI="http://www.llvm.org/releases/${VERSION}/${NAME}-${VERSION}.src.tar.xz"
+SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${VERSION}/${NAME}-${VERSION}.src.tar.xz"
 SRC_DIR="${NAME}-${VERSION}.src"
-PATCH_URI="7.0.1-cygwin-chkstk_ms.patch"
+PATCH_URI="
+	7.0.1-cygwin-chkstk_ms.patch
+	8.0.1-cygwin-nodefaultlibs.patch
+	8.0.1-cygwin-profile.patch
+"
 
 src_compile() {
 	cd ${B}
-	if defined ARCH_i686
-	then
-		# force __i686__ define
-		CFLAGS+=" -march=pentium3"
-	fi
+#	if defined ARCH_i686
+#	then
+#		# force __i686__ define
+#		CFLAGS+=" -march=pentium3"
+#	fi
 	# clang knows cygwin as windows-cygnus
 	cygcmake -DLLVM_CONFIG=/usr/bin/llvm-config \
 		 -DCOMPILER_RT_INSTALL_PATH=/usr/lib/clang/${VERSION} \
