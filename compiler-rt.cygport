@@ -17,6 +17,7 @@ PATCH_URI="
 	8.0.1-cygwin-nodefaultlibs.patch
 	8.0.1-cygwin-profile.patch
 "
+RESTRICT="debuginfo"
 
 src_compile() {
 	cd ${B}
