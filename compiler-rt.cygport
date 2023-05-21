@@ -27,7 +27,7 @@ src_compile() {
 #		CFLAGS+=" -march=pentium3"
 #	fi
 	# clang knows cygwin as windows-cygnus
-	cygcmake -DLLVM_CONFIG=/usr/bin/llvm-config \
+	cygcmake -DLLVM_CONFIG_PATH=/usr/bin/llvm-config \
 		 -DCOMPILER_RT_INSTALL_PATH=/usr/lib/clang/${VERSION}
 	cygninja
 }
