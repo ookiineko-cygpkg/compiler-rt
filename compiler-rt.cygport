@@ -2,7 +2,7 @@ CYGCMAKE_GENERATOR="Ninja"
 inherit clang cmake
 
 NAME="compiler-rt"
-VERSION=11.0.0
+VERSION=12.0.1
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Compiler runtime library for Clang"
@@ -16,6 +16,7 @@ PATCH_URI="
 	9.0.1-cygwin-defaults.patch
 	8.0.1-cygwin-nodefaultlibs.patch
 	8.0.1-cygwin-profile.patch
+	12.0.1-cygming-seh0-gcc-personality.patch
 "
 RESTRICT="debuginfo"
 
