@@ -2,7 +2,7 @@ CYGCMAKE_GENERATOR="Ninja"
 inherit clang cmake
 
 NAME="compiler-rt"
-VERSION=13.0.1
+VERSION=14.0.5
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Compiler runtime library for Clang"
@@ -13,9 +13,11 @@ HOMEPAGE="http://compiler-rt.llvm.org/"
 SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${VERSION}/${NAME}-${VERSION}.src.tar.xz"
 SRC_DIR="${NAME}-${VERSION}.src"
 PATCH_URI="
+	https://src.fedoraproject.org/rpms/${PN}/raw/f36/f/add-llvm-cmake-package.patch
 	9.0.1-cygwin-defaults.patch
 	8.0.1-cygwin-nodefaultlibs.patch
 	8.0.1-cygwin-profile.patch
+	14.0.5-cygwin-emutls-weak.patch
 "
 RESTRICT="debuginfo"
 
