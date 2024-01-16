@@ -2,7 +2,7 @@ CYGCMAKE_GENERATOR="Ninja"
 inherit clang cmake
 
 NAME="compiler-rt"
-VERSION=14.0.5
+VERSION=15.0.7
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Compiler runtime library for Clang"
@@ -10,16 +10,24 @@ DESCRIPTION="The compiler-rt provides a simple library that provides an
 implementation of the low-level target-specific hooks required by code
 generation and other runtime components."
 HOMEPAGE="http://compiler-rt.llvm.org/"
-SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${VERSION}/${NAME}-${VERSION}.src.tar.xz"
+SRC_URI="
+  https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/${P}.src.tar.xz
+  https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/cmake-${PV}.src.tar.xz
+"
 SRC_DIR="${NAME}-${VERSION}.src"
 PATCH_URI="
-	https://src.fedoraproject.org/rpms/${PN}/raw/f36/f/add-llvm-cmake-package.patch
+	https://src.fedoraproject.org/rpms/${PN}/raw/f37/f/0001-Fix-for-compiler-rt-stand-alone-builds.patch
 	9.0.1-cygwin-defaults.patch
 	8.0.1-cygwin-nodefaultlibs.patch
 	8.0.1-cygwin-profile.patch
 	14.0.5-cygwin-emutls-weak.patch
 "
 RESTRICT="debuginfo"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+    mv ../cmake{-${PV}.src,}
+}
 
 src_compile() {
 	cd ${B}
